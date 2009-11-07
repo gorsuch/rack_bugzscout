@@ -1,0 +1,27 @@
+= Rack::BugzScout, a Ruby Library that Makes Bug Submissions in Rack Easy ;-)
+
+This library that gives you easy access to the excellent BugzScout feature of FogBugz (http://fogcreek.com/fogbugz).
+For those that don't know, BugzScout allows bug data (exceptions, user input, etc) to be reported back to your FogBugz install 
+for further diagnosis.
+
+Author:: Michael Gorsuch (mailto:michael@styledbits.com)
+Copyright:: Copyright (c) 2009 Michael Gorsuch
+License:: BSD
+
+== Quick Usage
+
+In config.ru, do something like so:
+
+  require 'rack_bugzscout'
+
+  use Rack::BugzScout, "https://mysite.fogbugz.com/scoutsubmit.asp", "John Doe", "inbox", "undecided"
+
+== For Sinatra
+
+Make sure that you enable error raising to get this to work.  Example:
+
+  set :raise_errors, :true
+
+== Known Issues
+
+Well, once our little piece of code finishes, the exception is sent on up the chain.  This means you have to find a way to handle that 500.  One possible way is to use the Rack::ShowExceptions middleware.  Perhaps we can whip something else up?
