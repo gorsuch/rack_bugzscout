@@ -2,9 +2,7 @@ require 'rubygems'
 require 'bugzscout' 
  
 module Rack
-  # Catches all exceptions raised from the app it wraps and
-  # sends a useful email with the exception, stacktrace, and
-  # contents of the environment.
+  # Catches all exceptions raised, and submits them to FogBugz via BugzScout.  
  
   class BugzScout
     attr_reader :fogbugz_url, :fogbugz_user, :fogbugz_project, :fogbugz_area
@@ -22,8 +20,6 @@ module Rack
         begin
           @app.call(env)
         rescue => boom
-          # TODO don't allow exceptions from send_notification to
-          # propogate
           send_notification boom, env
           raise
         end
@@ -33,16 +29,21 @@ module Rack
   
   private
     def send_notification(exception, env)
-      puts "sending notification!!!!!"
-      if %w(staging production).include?(ENV['RACK_ENV'])
-        FogBugz::BugzScout.submit(@fogbugz_url) do |scout|
+      # wrapping this so we can avoid sending these up the chain
+      # not entirely sure that this is the right thing to do...
+      begin
+        if %w(staging production).include?(ENV['RACK_ENV'])
+          FogBugz::BugzScout.submit(@fogbugz_url) do |scout|
           scout.user = @fogbugz_user
           scout.project = @fogbugz_project
           scout.area = @fogbugz_area
           scout.title = exception.class.name
           scout.body = exception.message
         end
-        env['bugzscout.submitted'] = true
+          env['bugzscout.submitted'] = true
+        end
+      rescue => error
+        # maybe we ought to log something here?
       end
     end
   end
