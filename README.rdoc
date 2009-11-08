@@ -28,4 +28,8 @@ Make sure that you enable error raising to get this to work.  Example:
 
 == Known Issues
 
-Well, once our little piece of code finishes, the exception is sent on up the chain.  This means you have to find a way to handle that 500.  One possible way is to use the Rack::ShowExceptions middleware.  Perhaps we can whip something else up?
+Rack::BugzScout is not a stopping point for exceptions, meaning that it will continue to pass your error up the stack.  This can be a problem in many cases, especially for production apps that need to display something more pleasing than a 'FAIL!' page.
+
+To fix this, I crafted the Rack::ErrorPage middleware.  You can find out more here:
+
+http://github.com/mgorsuch/rack_errorpage
