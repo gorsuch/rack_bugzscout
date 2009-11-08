@@ -18,6 +18,7 @@ In config.ru, do something like so:
 
   require 'rack_bugzscout'
 
+  # params: scoutsubmit_url, username, project, area
   use Rack::BugzScout, "https://mysite.fogbugz.com/scoutsubmit.asp", "John Doe", "inbox", "undecided"
 
 == For Sinatra
