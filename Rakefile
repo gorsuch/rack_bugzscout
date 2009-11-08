@@ -4,7 +4,7 @@ require 'rake/gempackagetask'
 spec = Gem::Specification.new do |s|
   s.platform  =   Gem::Platform::RUBY
   s.name      =   "rack_bugzscout"
-  s.version   =   "0.0.9"
+  s.version   =   "0.0.11"
   s.author    =   "Michael Gorsuch"
   s.email     =   "michael@styledbits.com"
   s.summary   =   "Rack Middleware for submitting FogBugz BugzScout reports."
@@ -13,7 +13,7 @@ spec = Gem::Specification.new do |s|
   s.require_path  =   "lib"
   s.test_files = Dir.glob('tests/*.rb')
   s.has_rdoc  =   true
-  s.add_dependency('bugzscout')
+  s.add_dependency('bugzscout', '1.0.0')
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
