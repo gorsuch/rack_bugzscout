@@ -33,3 +33,10 @@ Rack::BugzScout is not a stopping point for exceptions, meaning that it will con
 To fix this, I crafted the Rack::ErrorPage middleware.  You can find out more here:
 
 http://github.com/mgorsuch/rack_errorpage
+
+If you do choose to go this route, enabling it is as simple as:
+
+  require 'rack_bugzscout'
+  
+  use Rack::ErrorPage, './public/500.html'
+  use Rack::BugzScout, "https://mysite.fogbugz.com/scoutsubmit.asp", "John Doe", "inbox", "undecided"
